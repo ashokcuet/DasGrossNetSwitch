@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/element/cms-element-product-listing.html.twig' %}
+
+{% block element_product_listing_wrapper %}
+    {% set dataUrl = path('frontend.das.cms.navigation.page', { navigationId: searchResult.currentFilters.navigationId }) %}
+
+    {{ parent() }}
+{% endblock %}

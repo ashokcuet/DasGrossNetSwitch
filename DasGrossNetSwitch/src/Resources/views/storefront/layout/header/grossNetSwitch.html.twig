@@ -1,0 +1,8 @@
+{% block layout_header_switch %}
+    <div class="form-check form-switch gross-net-switch" data-gross-net-switch>
+        <span class="d-none debug-session">{{ page.extensions.dasGrosNetConfig.grossNetSwitch|json_encode }}</span>
+        <input class="form-check-input" type="checkbox" id="grossNetToggle" {% if page.extensions.dasGrossNetConfig.grossNetSwitch %}checked{% endif %}>
+        <label class="form-check-label gross-net--toggle gross{% if page.extensions.dasGrossNetConfig.get('grossNetSwitch') is false %} d-none{% endif %}" for="grossNetToggle">{{ "DasGrossNetSwitch.inputField.label.gross"|trans }}</label>
+        <label class="form-check-label gross-net--toggle net{% if page.extensions.dasGrossNetConfig.get('grossNetSwitch') is true %} d-none{% endif %}" for="grossNetToggle">{{ "DasGrossNetSwitch.inputField.label.net"|trans }}</label>
+    </div>
+{% endblock %}

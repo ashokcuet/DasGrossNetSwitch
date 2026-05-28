@@ -1,0 +1,32 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget.html.twig' %}
+
+{% block buy_widget_buy_form %}
+    {{ parent() }}
+
+    {% if product.active %}
+        <div class="product-price-container">
+            <div class="product-detail-tax-container">
+                {% if context.taxState == "gross" %}
+                    {% set taxTextInfo = "das_gross_net.general.grossTaxInformation"|trans|sw_sanitize %}
+                {% else %}
+                    {% set taxTextInfo = "das_gross_net.general.netTaxInformation"|trans|sw_sanitize %}
+                {% endif %}
+
+                <p>
+                    {% block buy_widget_tax_lidas %}
+                        <span class="gross-net--toggle gross{% if config('DasGrossNetSwitch.config.active') and page.extensions.dasGrossNetConfig.get('grossNetSwitch') is false %} d-none{% endif %}">{{ taxTextInfo }}</span>
+                        <span class="gross-net--toggle net{% if config('DasGrossNetSwitch.config.active') and page.extensions.dasGrossNetConfig.get('grossNetSwitch') is true %} d-none{% endif %}">{{ "DasGrossNetSwitch.netPrice.label"|trans }}</span>
+                        <br>
+                        <a class="product-detail-tax-lidas"
+                           href="{{ path('frontend.cms.page', { id: config('core.basicInformation.shippingPaymentInfoPage') }) }}"
+                           title="{{ taxText }}"
+                        {{ dataBsToggleAttr }}="modal"
+                        data-url="{{ path('frontend.cms.page', { id: config('core.basicInformation.shippingPaymentInfoPage') }) }}">
+                        {{ "das_gross_net.general.addedShippingInformation"|trans|sw_sanitize }}
+                        </a>
+                    {% endblock %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

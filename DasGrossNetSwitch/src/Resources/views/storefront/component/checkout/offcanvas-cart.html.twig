@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-cart.html.twig' %}
+
+{% block component_offcanvas_summary %}
+    {% sw_include '@Storefront/storefront/component/checkout/offcanvas-cart-summary.html.twig' with {
+        grossNetSwitch: page.extensions.dasGrossNetConfig.grossNetSwitch
+    } %}
+{% endblock %}
