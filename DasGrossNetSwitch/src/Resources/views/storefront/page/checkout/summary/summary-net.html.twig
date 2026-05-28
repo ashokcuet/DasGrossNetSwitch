@@ -1,8 +1,0 @@
-{% sw_extends '@Storefront/storefront/page/checkout/summary/summary-net.html.twig' %}
-
-{% block page_checkout_summary_net_value %}
-    {% set netPrice = summary.price.totalPrice - (summary.price.totalPrice * summary.price.calculatedTaxes|first.taxRate/100) %}
-    <dd class="col-5 checkout-aside-summary-value summary-net">
-        <span class="gross-net--toggle{% if page.extensions.dasGrossNetConfig.get('grossNetSwitch') is true %} d-none{% endif %}">{{ netPrice|currency }}{{ "general.star"|trans|sw_sanitize }}</span>
-    </dd>
-{% endblock %}
