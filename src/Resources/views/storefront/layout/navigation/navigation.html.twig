@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
+
+{% block layout_main_navigation_menu %}
+    {{ parent() }}
+    {% if config('DasGrossNetSwitch.config.active') %}
+        {% block netkitchen_gross_net_switch_desktop %}
+            <div class="d-das-sm-none d-das-md-block das-gross-net-switch">
+                {% sw_include '@DasGrossNetSwitch/storefront/layout/header/grossNetSwitch.html.twig' %}
+            </div>
+        {% endblock %}
+    {% endif %}
+{% endblock %}

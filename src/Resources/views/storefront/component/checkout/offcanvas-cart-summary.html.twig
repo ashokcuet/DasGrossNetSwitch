@@ -1,0 +1,49 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-cart-summary.html.twig' %}
+
+{% block component_offcanvas_summary_total_value %}
+    {% set netPrice = (page.cart.price.totalPrice - (page.cart.price.totalPrice * page.cart.price.calculatedTaxes|first.taxRate/100)) %}
+    <dd class="col-5 summary-value summary-total">
+
+        {% if page.cart.deliveries is defined %}
+            {% for activeShipping in page.cart.deliveries.elements %}
+                {% set netPrice = netPrice - (activeShipping.shippingCosts.totalPrice - activeShipping.shippingCosts.calculatedTaxes|first.tax) %}
+            {% endfor %}
+        {% endif %}
+
+        {% if grossNetSwitch is true %}<span class="gross-net"><strong>{{ page.cart.price.positionPrice|currency }}{{ "general.star"|trans|sw_sanitize }}</strong></span>{% endif %}
+        {% if grossNetSwitch is false %}<span class="gross-net"><strong>{{ netPrice|currency }}{{ "general.star"|trans|sw_sanitize }}</strong></span>{% endif %}
+    </dd>
+{% endblock %}
+
+{% block component_offcanvas_summary_content_info %}
+    <div class="row offcanvas-shipping-info">
+        <span class="col-7 shipping-label shipping-cost">
+            <strong>{{ "checkout.summaryShipping"|trans|sw_sanitize }}</strong>
+            {% if loop.first %}
+                <small {% if page.shippingMethods|length %}class="js-toggle-shipping-selection"{% endif %}>
+                    ({{ activeShipping.shippingMethod.translated.name }})
+                </small>
+            {% endif %}
+        </span>
+
+        {% set shippingNetPrice = activeShipping.shippingCosts.totalPrice - activeShipping.shippingCosts.calculatedTaxes|first.tax %}
+        <span class="col-5 pb-2 shipping-value shipping-cost">
+            {% if grossNetSwitch is true %}<span class="gross-net"><strong>{{ activeShipping.shippingCosts.totalPrice < 0 ? '-' : '+' }} {{ activeShipping.shippingCosts.totalPrice|abs|currency }}{{ "general.star"|trans|sw_sanitize }}</strong></span>{% endif %}
+            {% if grossNetSwitch is false %}<span class="gross-net"><strong>{{ activeShipping.shippingCosts.totalPrice < 0 ? '-' : '+' }} {{ shippingNetPrice|abs|currency }}{{ "general.star"|trans|sw_sanitize }}</strong></span>{% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+{% block component_offcanvas_summary_tax_info %}
+    <p class="offcanvas-cart-tax">
+        <small>
+            {{ "general.star"|trans|sw_sanitize }}
+            {% if grossNetSwitch is true %}
+                {{ "general.grossTaxInformation"|trans|sw_sanitize }}
+            {% endif %}
+            {% if grossNetSwitch is false %}
+                {{ "general.netTaxInformation"|trans|sw_sanitize }}
+            {% endif %}
+        </small>
+    </p>
+{% endblock %}

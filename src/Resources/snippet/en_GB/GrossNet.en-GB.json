@@ -1,0 +1,16 @@
+{
+  "DasGrossNetSwitch": {
+    "inputField": {
+      "label": {
+        "gross": "gross incl.",
+        "net": "gross excl."
+      }
+   },
+    "grossPrice": {
+      "label": "gross incl: "
+    },
+    "netPrice": {
+      "label": "net price: "
+    }
+  }
+}

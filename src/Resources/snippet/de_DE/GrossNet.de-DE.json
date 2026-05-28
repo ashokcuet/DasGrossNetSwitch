@@ -1,0 +1,16 @@
+{
+  "DasGrossNetSwitch": {
+    "inputField": {
+      "label": {
+        "gross": "idasl. MwSt.",
+        "net": "exkl. MwSt."
+      }
+    },
+    "grossPrice": {
+      "label": "idasl. Mwst."
+    },
+    "netPrice": {
+      "label": "netto zzgl. MwSt."
+    }
+  }
+}

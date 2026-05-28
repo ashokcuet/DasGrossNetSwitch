@@ -1,0 +1,31 @@
+{% sw_extends '@Storefront/storefront/component/line-item/element/total-price.html.twig' %}
+
+{% block component_line_item_total_price_value %}
+    <div class="line-item-total-price-value">
+        {# Shipping costs discounts always have a price of 0, which might be confusing, therefore we do not show those #}
+        {% set netPrice = (lineItem.price.totalPrice - (lineItem.price.totalPrice * lineItem.price.calculatedTaxes|first.taxRate/100)) %}
+        {% set grossNetSwitch = page.extensions.dasGrossNetConfig.grossNetSwitch %}
+        {% if lineItem.payload.discountScope != 'delivery' %}
+            <span class="gross-net--toggle net{% if grossNetSwitch is true %} d-none{% endif %}">{{ netPrice|currency }}{{ "general.star"|trans|sw_sanitize }}</span>
+            <span class="gross-net--toggle gross{% if grossNetSwitch is false %} d-none{% endif %}">{{ lineItem.price.totalPrice|currency }}{{ "general.star"|trans|sw_sanitize }}</span>
+        {% endif %}
+        <div style="display: none">
+            {{ lineItem.price|json_encode(constant('JSON_PRETTY_PRINT')) }}
+        </div>
+        {% set referencePrice = lineItem.price.referencePrice %}
+        {% if referencePrice is not null and displayMode == 'offcanvas' %}
+            <br>
+            <small class="line-item-reference-price">
+                {% set dasPrice = {
+                    "gross": ((lineItem.price.totalPrice / lineItem.quantity) * referencePrice.referenceUnit)/referencePrice.purchaseUnit ,
+                    'net': ((netPrice / lineItem.quantity) * referencePrice.referenceUnit)/referencePrice.purchaseUnit
+                } %}
+
+
+                <span class="gross-net--level">{{ "das_gross_net.product.detail.BasicPrice"|trans|sw_sanitize }}</span>
+                <span class="gross-net--toggle gross{% if grossNetSwitch is not true %} d-none{% endif %}">{{ dasPrice.gross|currency }}{{ "general.star"|trans|sw_sanitize }} / {{ referencePrice.referenceUnit }} {{ referencePrice.unitName }}</span>
+                <span class="gross-net--toggle net{% if grossNetSwitch is true %} d-none{% endif %}">{{ dasPrice.net|currency }}{{ "general.star"|trans|sw_sanitize }} / {{ referencePrice.referenceUnit }} {{ referencePrice.unitName }}</span>
+            </small>
+        {% endif %}
+    </div>
+{% endblock %}
